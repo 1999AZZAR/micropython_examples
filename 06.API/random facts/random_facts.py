@@ -3,10 +3,15 @@ import time
 import urequests as requests
 import ujson as json
 import uos as os
+import machine
 
 FACTS_FILE = 'facts.json'
 MAX_SIZE = 500 * 1024  # 500 KB
 THRESHOLD = 0.97 * MAX_SIZE
+LED_PIN = 2  # Pin for the LED
+
+# Initialize LED pin
+led = machine.Pin(LED_PIN, machine.Pin.OUT)
 
 def connect_wifi(ssid, password):
     """Connect to WiFi."""
@@ -77,8 +82,8 @@ def save_fact(fact_details):
         json.dump(facts, f)
 
 # Connect to WiFi
-ssid = "Pixel"
-password = "drowssap"
+ssid = "your_ssid"
+password = "ssid_pass"
 connect_wifi(ssid, password)
 
 while True:
@@ -86,7 +91,12 @@ while True:
         fact_text, fact_details = get_random_fact()
     else:
         fact_text, fact_details = get_random_fact(use_online=False)
-
+    
+    # Blink LED
+    led.value(1)  # Turn on LED
+    time.sleep(0.5)  # Wait for 0.5 seconds
+    led.value(0)  # Turn off LEDtime.sleep(7)  # Wait before fetching the next fact
+    
     if fact_text and fact_details:
         print("Random Fact Text:")
         print(fact_text)
@@ -96,6 +106,6 @@ while True:
         print(fact_text)
     else:
         print("No fact retrieved.")
-
+    
     time.sleep(7)  # Wait before fetching the next fact
 

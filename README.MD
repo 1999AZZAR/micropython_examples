@@ -40,6 +40,12 @@ Example code for MicroPython OS functionality like filesystem access, directorie
 
 - See [here](05.SYSTEMS/readme.md) for more details.
 
+## Api
+
+Example code for MicroPython OS functionality like Api call, retrival, etc.
+
+- See [here](06.API/readme.md) for more details.
+
 ### Requirements
 
 - MicroPython board (tested on ESP32, ESP8266)
