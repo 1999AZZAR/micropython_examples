@@ -40,11 +40,9 @@ Example code for MicroPython OS functionality like filesystem access, directorie
 
 - See [here](05.SYSTEMS/readme.md) for more details.
 
-## Api
+## Lib
 
-Example code for MicroPython OS functionality like Api call, retrival, etc.
-
-- See [here](06.API/readme.md) for more details.
+Examples of my own written lib including the api call, drawing eye, etc.
 
 ### Requirements
 
