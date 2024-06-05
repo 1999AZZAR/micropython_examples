@@ -20,4 +20,4 @@ def blink_led(duration_sec, blink_interval_sec):
         time.sleep(blink_interval_sec)
 
 # Example: Blink the LED for 100 seconds with a 0.07-second interval
-blink_led(10, 0.07)
+blink_led(10, 0.05)
