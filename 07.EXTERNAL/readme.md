@@ -1,9 +1,9 @@
  
-# ESP32 GPIO Control System
+# GPIO Control System
 
 ## Overview
 
-This project is a comprehensive ESP32-based GPIO control system, featuring functionalities for controlling GPIO pins, interacting with I2C and SPI devices, and handling events with power management options. The system is designed to be highly extensible, allowing users to easily add new functionalities or modify existing ones. It supports both digital and analog I/O operations, I2C device communication, and SPI data transfer.
+This project is a comprehensive micropython supported board GPIO control system, featuring functionalities for controlling GPIO pins, interacting with I2C and SPI devices, and handling events with power management options. The system is designed to be highly extensible, allowing users to easily add new functionalities or modify existing ones. It supports both digital and analog I/O operations, I2C device communication, and SPI data transfer.
 
 ## Features
 
@@ -20,7 +20,7 @@ This project is a comprehensive ESP32-based GPIO control system, featuring funct
 
 ### Hardware Requirements
 
-- **ESP32 Development Board**
+- **Micropython supported Development Board**
 - **Micro-USB Cable** for power and programming
 - **I2C Devices** (optional)
 - **SPI Devices** (optional)
@@ -30,28 +30,28 @@ This project is a comprehensive ESP32-based GPIO control system, featuring funct
 
 - **Python 3.x** installed on your machine
 - **Thonny IDE** or any other MicroPython-compatible IDE
-- **MicroPython Firmware** installed on your ESP32 board
+- **MicroPython Firmware** installed on your Micropython supported Development Board board
 
-### Setting Up the ESP32
+### Setting Up the Micropython supported Development Board
 
-1. **Install MicroPython on ESP32:**
-   - Download the latest MicroPython firmware for ESP32 from [here](https://micropython.org/download/esp32/).
-   - Flash the firmware to your ESP32 using esptool or the Thonny IDE.
+1. **Install MicroPython on Micropython supported Development Board:**
+   - Download the latest MicroPython firmware for Micropython supported Development Board from [here](https://micropython.org/download/).
+   - Flash the firmware to your Micropython supported Development Board using esptool or the Thonny IDE.
 
 2. **Upload the Project Code:**
    - Open the provided `.py` file in Thonny or your preferred IDE.
-   - Connect the ESP32 board to your computer.
-   - Upload the code to the ESP32 board.
+   - Connect the Micropython supported Development Board to your computer.
+   - Upload the code to the board.
 
 ## Usage
 
 ### Initial Setup
 
-1. **Power on the ESP32:**
-   - Connect your ESP32 board to a power source using the Micro-USB cable.
+1. **Power on the Micropython supported Development Board:**
+   - Connect your Micropython supported Development Board to a power source using the Micro-USB cable.
 
 2. **Open a Serial Monitor:**
-   - Use the Thonny IDE or a serial terminal (e.g., PuTTY) to connect to the ESP32's serial port.
+   - Use the Thonny IDE or a serial terminal (e.g., PuTTY) to connect to the Micropython supported Development Board's serial port.
 
 3. **Interact with the System:**
    - Once connected, you'll be greeted with a GPIO table and a list of available commands.
@@ -132,7 +132,7 @@ This project is designed to be extensible, allowing you to add new features or m
 
 ### Power Management
 
-To conserve power, the system supports both light and deep sleep modes. Use the `sleep_mode` command to put the ESP32 into sleep mode. The system will automatically wake up after the specified duration or based on external interrupts.
+To conserve power, the system supports both light and deep sleep modes. Use the `sleep_mode` command to put the Micropython supported Development Board into sleep mode. The system will automatically wake up after the specified duration or based on external interrupts.
 
 ### Error Handling & Debugging
 
