@@ -48,6 +48,8 @@ Examples of my own written lib including the api call, drawing eye, etc.
 
 Example of external functionality like gpio serial control, etc.
 
+- See [here](07.EXTERNAL/readme.md) for more details.
+
 ### Requirements
 
 - MicroPython board (tested on ESP32, ESP8266)
