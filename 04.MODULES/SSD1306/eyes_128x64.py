@@ -2,14 +2,14 @@ from machine import Pin, I2C
 import time
 import math
 import urandom
-from ssd1306 import SSD1306_I2C
+import ssd1306
 
 import machine
 machine.freq(160000000) # mcu freq
 
-i2c = I2C(sda=Pin(4), scl=Pin(5)) # i2c pin
-oled = SSD1306_I2C(128, 64, i2c)  # display dimensions
-oled.contrast(0xFF) # use max brighness
+i2c = I2C(sda=Pin(21), scl=Pin(22)) # i2c pin
+oled = ssd1306.SSD1306_I2C(128, 64, i2c)
+#oled.contrast(0xFF) # use max brighness
 
 def circle(x, y, r, c):
     diameter = int(r * 2)  # Calculate diameter

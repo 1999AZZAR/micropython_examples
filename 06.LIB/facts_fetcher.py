@@ -1,93 +1,76 @@
 import urequests as requests
-import ujson as json
-import uos as os
+import json
+import os
 import machine
 import time
 import random
+from lib.blinker import Blinker
 
-FACTS_FILE = 'facts.json'
-MAX_SIZE = 500 * 1024  # 500 KB
-LED_PIN = 2  # Pin for the LED
+PATH = "facts.json"
+MAX_SIZE = 20 * 1024
+blinker = Blinker(2)
 
 class FactsFetcher:
     def __init__(self):
-        self.url = "https://uselessfacts.jsph.pl/api/v2/facts/random"
-        self.led = machine.Pin(LED_PIN, machine.Pin.OUT)
+        self.filepath = PATH
 
-    def is_connected_to_internet(self):
-        """Checks internet connectivity by pinging a public DNS server."""
+    def get_random_fact(self):
+        url = "https://uselessfacts.jsph.pl/api/v2/facts/random"
         try:
-            response = requests.get("https://8.8.8.8", timeout=3)  # Ping Google DNS with timeout
-            response.close()
-            return True
-        except:
-            return False
-
-    def get_random_fact(self, use_online=True):
-        if use_online:
-            response = requests.get(self.url)
+            response = requests.get(url)
             if response.status_code == 200:
                 data = response.json()
                 fact_text = data["text"]
                 fact_details = {
                     "id": data["id"],
-                    "text": data["text"]
+                    "fact": data["text"]
                 }
-                response.close()
                 return fact_text, fact_details
-            else:
-                response.close()
-                return None, None
-        else:
-            # Retrieve a random fact from the JSON file
-            if FACTS_FILE in os.listdir():
-                with open(FACTS_FILE, 'r') as f:
-                    facts = json.load(f)
-                if facts:
-                    random_fact = random.choice(facts)
-                    return random_fact['text'], random_fact
-            return None, None  # Return only text if available
+        except:
+            pass
+        return None, None
 
-    def save_fact(self, fact_details):
-        # Load existing facts
-        if FACTS_FILE in os.listdir():
-            with open(FACTS_FILE, 'r') as f:
+    def save_fact_details(self, fact_details):
+        try:
+            with open(self.filepath, "r") as f:
                 facts = json.load(f)
-        else:
+        except OSError:
             facts = []
 
-        # Check if the fact already exists
-        if any(fact['id'] == fact_details['id'] for fact in facts):
-            return
+        fact_ids = [fact["id"] for fact in facts]
+        if fact_details["id"] not in fact_ids:
+            facts.append(fact_details)
 
-        # Add new fact
-        facts.append(fact_details)
+            while len(json.dumps(facts)) > MAX_SIZE:
+                facts.pop(0)
 
-        # Check file size and remove oldest facts if necessary
-        while len(json.dumps(facts)) > MAX_SIZE:
-            facts.pop(0)  # Remove oldest fact
+            with open(self.filepath, "w") as f:
+                json.dump(facts, f)
 
-        # Save updated facts
-        with open(FACTS_FILE, 'w') as f:
-            json.dump(facts, f)
+    def get_local_fact(self):
+        try:
+            with open(self.filepath, "r") as f:
+                facts = json.load(f)
+            if facts:
+                fact_details = random.choice(facts)
+                return fact_details["fact"], fact_details
+        except OSError:
+            return None, None
 
-    def fetch_and_save_fact(self):
-        if self.is_connected_to_internet():
-            fact_text, fact_details = self.get_random_fact()
-        else:
-            fact_text, fact_details = self.get_random_fact(use_online=False)
-
-        # Blink LED
-        self.led.value(1)  # Turn on LED
-        time.sleep(0.5)  # Wait for 0.5 seconds
-        self.led.value(0)  # Turn off LED
-
+    def get_fact(self):
+        fact_text, fact_details = self.get_random_fact()
         if fact_text and fact_details:
-            print("Random Fact Text:")
+            blinker.blink(1, 0.15, 0.15)
+            print("Random fact (on) :")
             print(fact_text)
-            self.save_fact(fact_details)
-        elif fact_text:
-            print("Random Fact Text (Offline):")
-            print(fact_text)
+            self.save_fact_details(fact_details)
         else:
-            print("No fact retrieved.")
+            fact_text, fact_details = self.get_local_fact()
+            if fact_text and fact_details:
+                blinker.blink(1, 0.2, 0.2)
+                print("Random fact (off) :")
+                print(fact_text)
+            else:
+                blinker.blink(1, 0.25, 0.25)
+                print("No facts available offline.")
+

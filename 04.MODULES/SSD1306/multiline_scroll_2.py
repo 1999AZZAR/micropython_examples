@@ -11,7 +11,7 @@ def scroll_text(display, text, y):
         time.sleep(0.01)
 
 # Initialize I2C and SSD1306 display
-i2c = I2C(sda=Pin(4), scl=Pin(5))
+i2c = I2C(sda=Pin(21), scl=Pin(22))
 display = ssd1306.SSD1306_I2C(128, 64, i2c)
 
 # Multiple lines of text
@@ -26,7 +26,7 @@ lines = [
 # Display and scroll each line
 for i, line in enumerate(lines):
     scroll_text(display, line, i * 12)  # Offset each line vertically
-    time.sleep(0.5)  # Pause between lines
+    time.sleep(0.15)  # Pause between lines
 
 # Clear the display
 display.fill(0)

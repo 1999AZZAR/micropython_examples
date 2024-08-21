@@ -44,6 +44,10 @@ Example code for MicroPython OS functionality like filesystem access, directorie
 
 Examples of my own written lib including the api call, drawing eye, etc.
 
+## External
+
+Example of external functionality like gpio serial control, etc.
+
 ### Requirements
 
 - MicroPython board (tested on ESP32, ESP8266)

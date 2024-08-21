@@ -1,25 +1,18 @@
-# eye.py
-
-from machine import Pin, I2C
-import time
-import urandom
-from ssd1306 import SSD1306_I2C
-import machine
+import time, ssd1306, urandom, machine
 
 class EyeAnimation:
     def __init__(self):
-        machine.freq(160000000)  # Set MCU frequency to maximum
-        self.i2c = I2C(sda=Pin(4), scl=Pin(5))
-        self.oled = SSD1306_I2C(128, 64, self.i2c)
-        self.oled.contrast(0xFF)  # Set OLED brightness to maximum
-        self.vpos = 31 # eye position (middle)
-        self.EYE_MAJOR_AXIS = 20 # the eye vertical size
-        self.EYE_MINOR_AXIS = 25 # the eye horizontal size
-        self.PUPIL_MAJOR_AXIS = 12 # the pupil vertical size
-        self.PUPIL_MINOR_AXIS = 9 # the pupil horizontal size
+        machine.freq(240000000)
+        self.i2c = machine.I2C(0,scl=machine.Pin(22),sda=machine.Pin(21))
+        self.oled = ssd1306.SSD1306_I2C(128, 64, self.i2c)
+        self.vpos = 31
+        self.EYE_MAJOR_AXIS = 20
+        self.EYE_MINOR_AXIS = 25
+        self.PUPIL_MAJOR_AXIS = 12
+        self.PUPIL_MINOR_AXIS = 9
         self.TICK = 0.15
-        self.EXR = 30 # left eye fist position
-        self.EXL = 98 # right eye first position
+        self.EXR = 30
+        self.EXL = 98
         self.WHITE = 1
         self.BLACK = 0
 
@@ -91,7 +84,8 @@ class EyeAnimation:
         self.center(False)
 
     def animate(self):
-        while True:
+        loop_counter = 0
+        while loop_counter < 15:
             action = urandom.getrandbits(5)
             if action == 1:
                 self.lookRight()
@@ -112,8 +106,11 @@ class EyeAnimation:
             elif action == 9:
                 self.right(False)
 
-            if urandom.getrandbits(5) < 6:  # Adjust the threshold for blinking frequency
+            if urandom.getrandbits(5) < 6:
                 self.center(True)
 
             self.center(False)
+            loop_counter += 1
+        return 
 
+draw_eye=EyeAnimation().animate

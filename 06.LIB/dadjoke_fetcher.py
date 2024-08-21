@@ -1,12 +1,18 @@
 import urequests as requests
 import json
 import os
+import machine
+import time
 import random
+from lib.blinker import Blinker
+
+PATH = "dadjokes.json"
+MAX_SIZE = 20 * 1024
+blinker = Blinker(2)
 
 class DadJokeFetcher:
-    def __init__(self, filepath="dadjokes.json", max_size_kb=400):
-        self.filepath = filepath
-        self.max_size_kb = max_size_kb
+    def __init__(self):
+        self.filepath = PATH
 
     def get_random_dadjoke(self):
         url = "https://icanhazdadjoke.com/"
@@ -22,7 +28,7 @@ class DadJokeFetcher:
                 }
                 return joke_text, joke_details
         except:
-            pass  # Handle the case where the request fails
+            pass
         return None, None
 
     def save_joke_details(self, joke_details):
@@ -36,9 +42,8 @@ class DadJokeFetcher:
         if joke_details["id"] not in joke_ids:
             jokes.append(joke_details)
 
-            # Manage file size to be under max_size_kb
-            while len(json.dumps(jokes)) > self.max_size_kb * 1024:  # max_size_kb KB
-                jokes.pop(0)  # Remove the oldest joke
+            while len(json.dumps(jokes)) > MAX_SIZE:
+                jokes.pop(0)
 
             with open(self.filepath, "w") as f:
                 json.dump(jokes, f)
@@ -56,14 +61,17 @@ class DadJokeFetcher:
     def get_joke(self):
         joke_text, joke_details = self.get_random_dadjoke()
         if joke_text and joke_details:
-            print("Online Random Dad Joke Text:")
+            blinker.blink(1, 0.15, 0.15)
+            print("Random Dad Joke (on) :")
             print(joke_text)
             self.save_joke_details(joke_details)
         else:
             joke_text, joke_details = self.get_local_joke()
             if joke_text and joke_details:
-                print("Offline Random Dad Joke Text:")
+                blinker.blink(1, 0.2, 0.2)
+                print("Random Dad Joke (off) :")
                 print(joke_text)
             else:
+                blinker.blink(1, 0.25, 0.25)
                 print("No jokes available offline.")
 
