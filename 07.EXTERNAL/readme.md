@@ -142,6 +142,12 @@ The system includes basic error handling for I2C and SPI communications, with re
 
 ![flowchart](flowchart.png)
 
+## Pinouts
+
+![esp32](ESP32-Pinout.webp)
+![esp8266](ESP8266-Pinout-NodeMCU.webp)
+![pico](Raspberry-Pi-Pico-W-Pinout.webp)
+
 ## Contributions
 
 Contributions to this project are welcome. If you find a bug or have a feature request, feel free to open an issue or submit a pull request. Please ensure that your code follows the style and conventions used in the project.
